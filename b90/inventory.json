@@ -1,0 +1,18 @@
+{
+  "samples": 4662,
+  "vcslSamples": 4255,
+  "holiznaSamples": 407,
+  "bytes": 6303790046,
+  "families": {
+    "Drums & Percussion": 1526,
+    "Mallets & Tuned Percussion": 429,
+    "Organs": 146,
+    "Pianos & Keys": 1459,
+    "Strings & Plucked": 308,
+    "Synths": 189,
+    "Whistles & FX": 13,
+    "Woodwinds & Reeds": 592
+  },
+  "instruments": 115,
+  "revision": "b90-library-v1"
+}
