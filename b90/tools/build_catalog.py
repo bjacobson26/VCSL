@@ -86,7 +86,12 @@ def build(repo, revision, holizna):
             collection='VCSL', family=family(parts), instrument=instrument, articulation=style,
             note=note.group(1) if note else None, revision=revision, isDrumKit=False,
             originalPath=relative.as_posix(), **facts))
-    samples.sort(key=lambda s: (natural(s.get('family', 'Drums & Percussion')), natural(s['instrument']), natural(s['articulation']), natural(s['name']), s['id']))
+    def style_rank(style):
+        text = style.lower()
+        if any(x in text for x in ('release', 'pedal', 'legacy')): return 2
+        if text in ('sustain', 'one-shot', 'normal'): return 0
+        return 1
+    samples.sort(key=lambda s: (natural(s.get('family', 'Drums & Percussion')), 'legacy' in s['instrument'].lower(), natural(s['instrument']), style_rank(s['articulation']), natural(s['articulation']), natural(s['name']), s['id']))
     assert len({s['id'] for s in samples}) == len(samples)
     assert all(s['bytes'] <= 30_000_000 and s['durationSeconds'] > 0 for s in samples)
     catalog = dict(schemaVersion=2, title='B-90 Open Sound Library', repository='https://github.com/bjacobson26/VCSL',
