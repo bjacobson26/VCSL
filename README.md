@@ -1,6 +1,6 @@
 # B-90 sound-library fork
 
-This fork includes the complete VCSL collection plus 407 Holizna drum sounds, with an organized catalog for B-90. See [B-90 library documentation](b90/README.md) and [inventory](b90/inventory.json). Original upstream documentation follows.
+This fork includes the complete VCSL collection plus 407 Holizna drum sounds, 138 MechSounds sounds, and 63 Infinite State WAVs, with an organized catalog for B-90. See [B-90 library documentation](b90/README.md) and [inventory](b90/inventory.json). VCSL, Holizna and MechSounds audio is CC0. Infinite State uses its creator’s unrestricted-use permission, documented in [its notice](b90/Infinite%20State/LICENSE-NOTICE.md); it is not relicensed by the root CC0 license. Original upstream documentation follows.
 
 # VCSL
 ![logo](https://github.com/sgossner/VCSL/raw/master/Assets/VCSL_Color_128x128.png "VCSL Logo")

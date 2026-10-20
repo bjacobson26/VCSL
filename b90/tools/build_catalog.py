@@ -86,6 +86,12 @@ def build(repo, revision, holizna):
             collection='VCSL', family=family(parts), instrument=instrument, articulation=style,
             note=note.group(1) if note else None, revision=revision, isDrumKit=False,
             originalPath=relative.as_posix(), **facts))
+    extra_path = out / 'electronic-source.json'
+    extra = json.loads(extra_path.read_text()) if extra_path.exists() else []
+    for sound in extra:
+        facts = metadata(repo / sound['path'])
+        assert facts['sha256'] == sound['sha256'] and facts['bytes'] == sound['bytes']
+    samples.extend(extra)
     def style_rank(style):
         text = style.lower()
         if any(x in text for x in ('release', 'pedal', 'legacy')): return 2
@@ -96,8 +102,13 @@ def build(repo, revision, holizna):
     assert all(s['bytes'] <= 30_000_000 and s['durationSeconds'] > 0 for s in samples)
     catalog = dict(schemaVersion=2, title='B-90 Open Sound Library', repository='https://github.com/bjacobson26/VCSL',
         licenseUrl='https://creativecommons.org/publicdomain/zero/1.0/', samples=samples)
-    (out / 'catalog.json').write_text(json.dumps(catalog, ensure_ascii=False, separators=(',', ':')) + '\n')
-    stats = dict(samples=len(samples), vcslSamples=len(originals), holiznaSamples=len(samples)-len(originals),
+    # Builds through 59 only accept CC0 entries; never poison their live feed.
+    legacy = dict(catalog, samples=[s for s in samples if s['license'] == 'CC0-1.0'])
+    (out / 'catalog.json').write_text(json.dumps(legacy, ensure_ascii=False, separators=(',', ':')) + '\n')
+    modern = dict(catalog, schemaVersion=3)
+    modern.pop('licenseUrl', None)  # Per-sound permission; not a blanket CC0 claim.
+    (out / 'catalog-v3.json').write_text(json.dumps(modern, ensure_ascii=False, separators=(',', ':')) + '\n')
+    stats = dict(samples=len(samples), vcslSamples=len(originals), holiznaSamples=sum(s.get('collection') == 'Holizna Drum Kits' for s in samples), electronicSamples=len(extra),
                  bytes=sum(s['bytes'] for s in samples), families=dict(collections.Counter(s.get('family','Drums & Percussion') for s in samples)),
                  instruments=len({s['instrument'] for s in samples}), revision=revision)
     (out / 'inventory.json').write_text(json.dumps(stats, indent=2) + '\n')

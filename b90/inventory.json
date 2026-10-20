@@ -1,18 +1,22 @@
 {
-  "samples": 4662,
+  "samples": 4863,
   "vcslSamples": 4255,
   "holiznaSamples": 407,
-  "bytes": 6303790046,
+  "electronicSamples": 201,
+  "bytes": 6440651714,
   "families": {
-    "Drums & Percussion": 1526,
+    "Bass": 25,
+    "Drums & Percussion": 1560,
+    "FX": 29,
     "Mallets & Tuned Percussion": 429,
     "Organs": 146,
+    "Pads & Chords": 9,
     "Pianos & Keys": 1459,
     "Strings & Plucked": 308,
-    "Synths": 189,
+    "Synths": 293,
     "Whistles & FX": 13,
     "Woodwinds & Reeds": 592
   },
-  "instruments": 115,
+  "instruments": 125,
   "revision": "b90-library-v1"
 }
